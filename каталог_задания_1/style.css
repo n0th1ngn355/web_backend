@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("https://uploads-ssl.webflow.com/62e3ee10882dc50bcae8d07a/631a5d4631d4c55a475f3e34_noise-50.png");
+    color: white;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+.main{
+    padding: 10px;
+    margin: auto;
+    max-width: 800px;
+}
+h1{
+    margin: 10px;
+    text-align: center;
+}
+.img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+img{
+    width: 100%;
+    height: 90%;
+    transition: all .2s ease;
+}
+/* img:hover{
+    transform: scale(1.1);
+} */
+
+span{
+    margin: 5px;
+    font-size: 30px;
+}
+@media (max-width: 500px) {
+    span {
+      margin: 1;
+      font-size: 20px;
+    }
+  }
