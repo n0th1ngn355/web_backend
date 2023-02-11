@@ -7,7 +7,15 @@ body{
     color: white;
 }
 ::-webkit-scrollbar{
-    display: none;
+    background-color: rgb(38, 38, 39);
+    width: 10px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: rgb(97, 97, 97);
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: rgb(71, 71, 71);
 }
 .main{
     padding: 10px;
