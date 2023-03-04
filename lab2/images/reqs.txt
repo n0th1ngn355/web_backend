@@ -1,0 +1,39 @@
+1.
+GET / HTTP/1.0
+Host: u53011.kubsu-dev.ru
+Connection: keep-alive
+
+
+2.
+GET /lab1/ HTTP/1.1
+Host: u53011.kubsu-dev.ru
+
+
+3.
+HEAD /lab2/file.tar.gz HTTP/1.1
+Host: u53011.kubsu-dev.ru
+
+
+4.
+HEAD /lab2/image.png HTTP/1.1
+Host: u53011.kubsu-dev.ru
+
+
+5.
+POST /lab2/index.php HTTP/1.1
+Host: u53011.kubsu-dev.ru
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 38
+
+email=info@example.com&comment=comment
+
+6.
+GET /lab2/file.tar.gz HTTP/1.1
+Host: u53011.kubsu-dev.ru
+Range: bytes=0-99
+
+
+7.
+HEAD /lab2/index.php HTTP/1.1
+Host: u53011.kubsu-dev.ru
+
