@@ -28,4 +28,4 @@ ALTER TABLE `application_superpower` ADD FOREIGN KEY (sup_id) REFERENCES `superp
 
 
 // для вывода
-select application.name, email,group_concat(superpower.name separator ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id;
+select application.name, email,group_concat(superpower.name separator ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id group by application.name, email;

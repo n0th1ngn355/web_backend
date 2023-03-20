@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<script defer src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+<script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
 integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
 <!-- <script src="saved.js" defer></script> -->
 <link rel="stylesheet" href="/styles/labsStyle.css">
@@ -163,10 +163,9 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
 </div>
 
 <?php
-if (!empty($_GET['save'])) {
+if (isset($_COOKIE['saved'])) {
 echo "<script type='text/javascript'>
 $(document).ready(function(){
-$('#modal').modal('show');
+  $('#modal').modal('show');
 });
 </script>";}
-?>

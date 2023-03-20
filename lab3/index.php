@@ -3,7 +3,8 @@
 header('Content-Type: text/html; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  if (!empty($_GET['save'])) {
+  if (isset($_COOKIE['saved'])) {
+    setcookie('saved',NULL,1);
     // print('<center style="background-color:green;">Спасибо, результаты сохранены.</center>');
   }
   include('form.php');
@@ -11,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 
 
-setcookie('name',$_POST['name']);
+setcookie('name',$_POST['name']); 
 setcookie('email',$_POST['email']);
 setcookie('yob',$_POST['yob']);
 setcookie('sex',$_POST['sex']);
@@ -56,9 +57,9 @@ if ($errors) {
 }
 
 try{
-  $user = 'postgres';
-  $pass = 'root';
-  $db = new PDO('pgsql:host=localhost;port=5432;dbname=u53011;', $user, $pass,
+  $user = 'u53011';
+  $pass = '1234';
+  $db = new PDO('mysql:host=localhost;dbname=u53011;', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch(PDOException $e){
   die($e->getMessage());
@@ -90,8 +91,13 @@ try{
  
 //  Именованные метки.
 try{
-  $stmt = $db->prepare("INSERT INTO application VALUES (9,:name,:email,:yob,:sex,:num_of_limbs,:biography)");
+  $stmt = $db->prepare("INSERT INTO application VALUES (null,:name,:email,:yob,:sex,:num_of_limbs,:biography)");
   $stmt -> execute(['name'=>$_POST['name'], 'email'=>$_POST['email'],'yob'=>$_POST['yob'],'sex'=>$_POST['sex'],'num_of_limbs'=>$_POST['num_of_limbs'],'biography'=>$_POST['biography']]);
+  $ap_id = $db->lastInsertId();
+  foreach ($_POST['superpowers'] as $sup_id) {
+    $stmt = $db->prepare("INSERT INTO application_superpower VALUES (null,:ap_id,:sup_id)");
+    $stmt -> execute(['ap_id'=>$ap_id, 'sup_id'=>$sup_id]);
+  }
 } catch(PDOException $e){
     print('Error : ' . $e->getMessage());
     exit();
@@ -120,4 +126,5 @@ setcookie('num_of_limbs',NULL,1);
 setcookie('biography',NULL,1);
 setcookie('superpowers',NULL,1);
 setcookie('policyCheckBox',NULL,1);
-header('Location: ?save=1');
+setcookie('saved',1);
+header('Location: /lab3');
