@@ -1,5 +1,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script defer src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+<!-- <script src="saved.js" defer></script> -->
+<link rel="stylesheet" href="/styles/labsStyle.css">
 <form method="post" autocomplete="off" id="form" novalidate class="m-auto row g-4">
           <div class="col-md-6">
             <label for="formName" class="form-label">Имя</label>
@@ -146,3 +151,22 @@
             <input type="submit" id="submitBtn" class="btn btn-success m-auto" value="Отправить">
           </div>
         </form>
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-body d-flex p-0">
+        <h1>Спасибо, результаты сохранены.</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php
+if (!empty($_GET['save'])) {
+echo "<script type='text/javascript'>
+$(document).ready(function(){
+$('#modal').modal('show');
+});
+</script>";}
+?>

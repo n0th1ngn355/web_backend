@@ -4,15 +4,7 @@ header('Content-Type: text/html; charset=UTF-8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   if (!empty($_GET['save'])) {
-    print('Спасибо, результаты сохранены.');
-    setcookie('name',NULL);
-    setcookie('email',NULL);
-    setcookie('yob',NULL);
-    setcookie('sex',NULL);
-    setcookie('num_of_limbs',NULL);
-    setcookie('biography',NULL);
-    setcookie('superpowers',NULL);
-    setcookie('policyCheckBox',NULL);
+    // print('<center style="background-color:green;">Спасибо, результаты сохранены.</center>');
   }
   include('form.php');
   exit();
@@ -63,11 +55,26 @@ if ($errors) {
   exit();
 }
 
+try{
+  $user = 'postgres';
+  $pass = 'root';
+  $db = new PDO('pgsql:host=localhost;port=5432;dbname=u53011;', $user, $pass,
+    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+} catch(PDOException $e){
+  die($e->getMessage());
+}
 
-$user = 'u53011';
-$pass = '1234';
-$db = new PDO('mysql:host=localhost;dbname=u53011', $user, $pass,
-  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+// try {
+// 	$dsn = "pgsql:host=localhost;port=5432;dbname=u53011;";
+// 	// make a database connection
+// 	$db = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
+// 	if ($db) {
+// 		echo "Connected to the $db database successfully!";
+// 	}
+// } catch (PDOException $e) {
+// 	die($e->getMessage());
+// } 
 
 // Подготовленный запрос. Не именованные метки.
 // try {
@@ -82,9 +89,15 @@ $db = new PDO('mysql:host=localhost;dbname=u53011', $user, $pass,
 //  stmt - это "дескриптор состояния".
  
 //  Именованные метки.
-$stmt = $db->prepare("INSERT INTO application VALUES (:name,:email,:yob,:sex,:num_of_limbs,:biography)");
-$stmt -> execute(['name'=>$_POST['name'], 'email'=>$_POST['email'],'yob'=>$_POST['yob'],'sex'=>$_POST['sex'],'num_of_limbs'=>$_POST['num_of_limbs'],'biography'=>$_POST['biography'],]);
- 
+try{
+  $stmt = $db->prepare("INSERT INTO application VALUES (9,:name,:email,:yob,:sex,:num_of_limbs,:biography)");
+  $stmt -> execute(['name'=>$_POST['name'], 'email'=>$_POST['email'],'yob'=>$_POST['yob'],'sex'=>$_POST['sex'],'num_of_limbs'=>$_POST['num_of_limbs'],'biography'=>$_POST['biography']]);
+} catch(PDOException $e){
+    print('Error : ' . $e->getMessage());
+    exit();
+}
+// закинуть способности 
+
 //Еще вариант
 /*$stmt = $db->prepare("INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)");
 $stmt->bindParam(':firstname', $firstname);
@@ -99,4 +112,12 @@ $stmt->execute();
 // Делаем перенаправление.
 // Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
 // Если ошибок при этом не видно, то необходимо настроить параметр display_errors для PHP.
+setcookie('name',NULL,1);
+setcookie('email',NULL,1);
+setcookie('yob',NULL,1);
+setcookie('sex',NULL,1);
+setcookie('num_of_limbs',NULL,1);
+setcookie('biography',NULL,1);
+setcookie('superpowers',NULL,1);
+setcookie('policyCheckBox',NULL,1);
 header('Location: ?save=1');

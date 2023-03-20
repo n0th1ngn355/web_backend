@@ -1,5 +1,5 @@
 // версия для PSQL
-
+// при добавлении записи ключи не увеличиваются автоматом
 CREATE TABLE application (
   application_id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
