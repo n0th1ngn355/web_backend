@@ -169,3 +169,9 @@ $(document).ready(function(){
   $('#modal').modal('show');
 });
 </script>";}
+?>
+
+<script>
+  $("#form").submit(function (e) {
+$("#submitBtn").attr("disabled", true);});
+  </script>
