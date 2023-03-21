@@ -34,7 +34,7 @@ try{
   $db = new PDO('mysql:host=localhost;dbname=u53011;', $user, $pass,
     [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-  $stmt = $db->prepare("select application.name, email, group_concat(superpower.name separator ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id group by application.name");
+  $stmt = $db->prepare("select application.name, email, group_concat(superpower.name separator ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id group by application.name, application.email");
   $stmt->execute();
 
   $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
