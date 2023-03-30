@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: text/html; charset=UTF-8');
-
+session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   if (isset($_COOKIE['saved'])) {
     setcookie('saved',NULL,1);
