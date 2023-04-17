@@ -77,19 +77,7 @@ try{
 // 	die($e->getMessage());
 // } 
 
-// Подготовленный запрос. Не именованные метки.
-// try {
-//   $stmt = $db->prepare("INSERT INTO application SET name = ?");
-//   $stmt->execute([$_POST['fio']]);
-// }
-// catch(PDOException $e){
-//   print('Error : ' . $e->getMessage());
-//   exit();
-// }
 
-//  stmt - это "дескриптор состояния".
- 
-//  Именованные метки.
 try{
   $stmt = $db->prepare("INSERT INTO application VALUES (null,:name,:email,:yob,:sex,:num_of_limbs,:biography)");
   $stmt -> execute(['name'=>$_POST['name'], 'email'=>$_POST['email'],'yob'=>$_POST['yob'],'sex'=>$_POST['sex'],'num_of_limbs'=>$_POST['num_of_limbs'],'biography'=>$_POST['biography']]);
@@ -102,22 +90,8 @@ try{
     print('Error : ' . $e->getMessage());
     exit();
 }
-// закинуть способности 
 
-//Еще вариант
-/*$stmt = $db->prepare("INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)");
-$stmt->bindParam(':firstname', $firstname);
-$stmt->bindParam(':lastname', $lastname);
-$stmt->bindParam(':email', $email);
-$firstname = "John";
-$lastname = "Smith";
-$email = "john@test.com";
-$stmt->execute();
-*/
 
-// Делаем перенаправление.
-// Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
-// Если ошибок при этом не видно, то необходимо настроить параметр display_errors для PHP.
 setcookie('name',NULL,1);
 setcookie('email',NULL,1);
 setcookie('yob',NULL,1);
