@@ -12,13 +12,13 @@ CREATE TABLE `application` (
 
 CREATE TABLE `superpower` (
   `sup_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(30) NOT NULL,
+  `name` VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE `application_superpower` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `application_id` INT NOT NULL REFERENCES `application` (`application_id`) ON DELETE CASCADE,
-  `sup_id` INT NOT NULL REFERENCES `superpower` (`sup_id`) ON DELETE CASCADE,
+  `sup_id` INT NOT NULL REFERENCES `superpower` (`sup_id`) ON DELETE CASCADE
 );
 
 INSERT INTO superpower values(1,'бессмертие');

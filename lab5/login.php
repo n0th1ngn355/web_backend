@@ -17,8 +17,8 @@ else{
   //header('Location: ./');
    
 }
-
-
+$er_msg = '';
+$login = '';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_COOKIE['er_msg'])){
         $er_msg = $_COOKIE['er_msg'];
