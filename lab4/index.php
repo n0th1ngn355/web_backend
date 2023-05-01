@@ -1,7 +1,6 @@
 <?php
 
 header('Content-Type: text/html; charset=UTF-8');
-session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $saved = FALSE;
   if (isset($_COOKIE['saved'])) {
@@ -35,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $values['yob']  = empty($_COOKIE['yob']) ? "" : $_COOKIE['yob'];
   $values['name']  = empty($_COOKIE['name'])? "" : $_COOKIE['name']; 
   $values['email']  = empty($_COOKIE['email']) ? "" : $_COOKIE['email'];
-  $values['sex']  = empty($_COOKIE['sex']) ? "" : $_COOKIE['sex'];
-  $values['num_of_limbs']  = empty($_COOKIE['num_of_limbs']) ? "" : $_COOKIE['num_of_limbs'];
+  $values['sex']  = isset($_COOKIE['sex'])?$_COOKIE['sex']:1 ;
+  $values['num_of_limbs']  = isset($_COOKIE['num_of_limbs'])?$_COOKIE['num_of_limbs']:4 ;
   $values['biography']  = empty($_COOKIE['biography']) ? "" : $_COOKIE['biography'];
   $values['superpowers']  = empty($_COOKIE['superpowers']) ? "" : $_COOKIE['superpowers'];
   $values['policyCheckBox']  = empty($_COOKIE['policyCheckBox']) ? 0 : $_COOKIE['policyCheckBox'];

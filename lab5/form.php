@@ -1,10 +1,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4 задание</title>
+<title>5 задание</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
 integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/styles/labsStyle.css">
+<a style='font-size:30px; text-decoration:none;' href='login.php'>
+<?php
+  if($auth){
+    echo 'Выйти';
+  }else{
+    echo 'Войти';
+  }
+?>
+</a>
 <form method="post" autocomplete="off" id="form" novalidate class="m-auto row g-4">
           <div class="col-md-6">
             <label for="formName" class="form-label">Имя</label>
@@ -47,7 +56,7 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
 
           <div class="col-md-6 d-flex justify-content-center">
 
-          <div class="col-6 m-auto row">
+            <div class="col-6 m-auto row">
               <label class="form-label">Пол</label>
               <div class="col-6 ">
                 <input class="form-check-input" type="radio" name="sex" value="1" <?php 
@@ -149,11 +158,19 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
           </div>
         </form>
 
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop='static' id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-body d-flex p-0">
+      <div class="modal-body d-flex flex-column text-center p-0">
         <h1>Спасибо, результаты сохранены.</h1>
+        <?php
+          if (empty($changed)) {
+            echo '<h2> Ваш логин: '.$login.'</h2>';
+            echo '<h2> Ваш пароль: '.$password.'</h2>';} 
+          ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ОК</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
-// версия для PSQL
-// при добавлении записи ключи не увеличиваются автоматом
 CREATE TABLE application (
   application_id SERIAL PRIMARY KEY,
+  login VARCHAR(50) NOT NULL,
+  password VARCHAR(60) NOT NULL,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
   yob INT NOT NULL,
@@ -17,14 +17,13 @@ CREATE TABLE superpower (
 
 CREATE TABLE application_superpower (
   id SERIAL PRIMARY KEY,
-  application_id INT NOT NULL,
-  sup_id INT NOT NULL
+  application_id INT NOT NULL REFERENCES application (application_id) ON DELETE CASCADE,
+  sup_id INT NOT NULL REFERENCES superpower (sup_id) ON DELETE CASCADE
 );
 
-ALTER TABLE application_superpower ADD FOREIGN KEY (application_id) REFERENCES application (application_id);
-ALTER TABLE application_superpower ADD FOREIGN KEY (sup_id) REFERENCES superpower (sup_id);
-
-
+INSERT INTO superpower values(1,'бессмертие');
+INSERT INTO superpower values(2,'прохождение сквозь стены');
+INSERT INTO superpower values(3,'левитация');
 
 // для вывода
 select application.name, email, string_agg(superpower.name, ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id group by application.name, email;
