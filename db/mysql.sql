@@ -21,9 +21,17 @@ CREATE TABLE `application_superpower` (
   `sup_id` INT NOT NULL REFERENCES `superpower` (`sup_id`) ON DELETE CASCADE
 );
 
+CREATE TABLE `admin` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `login` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(60) NOT NULL
+);
+
 INSERT INTO superpower values(1,'бессмертие');
 INSERT INTO superpower values(2,'прохождение сквозь стены');
 INSERT INTO superpower values(3,'левитация');
+
+insert into admin values(1,'admin','$2y$10$Hsn4w1xLODFm4myyzJrrjuyg.pvvZrXmZ5yHKFcpvdtHVGOuSs0sC');
 
 // для вывода
 select application.name, email,group_concat(superpower.name separator ', ') as superpowers from application  join application_superpower on application.application_id =application_superpower.application_id join superpower on application_superpower.sup_id = superpower.sup_id group by application.name, email;
