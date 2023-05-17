@@ -1,4 +1,5 @@
 <?php
+include('isAuth.php');
 try{
   include('connection.php');
   $stmt = $db->prepare("select * from application where application_id=:uid");
@@ -36,7 +37,27 @@ try{
     });
   }
   function deleteUser(){
-    alert('тут должны удаляться строки');
+    const url = './delete.php';
+    const data = {
+      id: [<?php echo $uid; ?>],
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          console.log('Ответ сервера:', response);
+          location.replace('./admin.php');
+        } else {
+          console.error('Ошибка:', xhr.status);
+        }
+      }
+    };
+    xhr.send(JSON.stringify(data));
+    
   }
 </script>
 <a style='font-size:30px; text-decoration:none;' href='./admin.php'>Назад</a>

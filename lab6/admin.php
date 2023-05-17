@@ -1,9 +1,6 @@
 <?php
 include('style.php');
-if (empty($_SERVER['PHP_AUTH_USER'])) {
-    header('Location: ./');
-}
-
+include('isAuth.php');
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 if(!empty($_GET['id'])){
@@ -39,7 +36,33 @@ else{
     });
   }
   function deleteRows(){
-    alert('тут должны удаляться строки');
+    let t = [];
+    document.querySelectorAll('input:checked').forEach(element => {
+      t.push(parseInt(element.value));
+    });
+    if(t.length != 0){
+      const url = './delete.php';
+      const data = {
+        id: t,
+      };
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            console.log('Ответ сервера:', response);
+            location.reload();
+          } else {
+            console.error('Ошибка:', xhr.status);
+          }
+        }
+      };
+      xhr.send(JSON.stringify(data));
+    }else{
+      location.reload();
+    }
   }
 </script>
 <a class='btn btn-primary m-3' href='./'>Выйти</a>
