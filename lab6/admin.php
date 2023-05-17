@@ -4,7 +4,7 @@ include('isAuth.php');
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 if(!empty($_GET['id'])){
-  if($_COOKIE['saved']==1){
+  if(isset($_COOKIE['saved']) && $_COOKIE['saved']==1){
     echo "<div class='d-flex flex-column m-auto'>";
     echo "<div class='col alert alert-success m-auto'>Данные сохранены</div>";
     echo "</div>";
@@ -78,7 +78,7 @@ echo "<div class='col-12 col-lg-10 m-auto d-flex flex-column'>";
     $peps = $stmt->fetchColumn();
 
     // запрашиваем статистику по способностям
-    $stmt = $db->prepare('select s.name, count(a_s.id) from application a join application_superpower a_s on a.application_id =a_s.application_id join superpower s on a_s.sup_id = s.sup_id group by s.name;');
+    $stmt = $db->prepare('select s.name, count(a_s.id) as count from application a join application_superpower a_s on a.application_id =a_s.application_id join superpower s on a_s.sup_id = s.sup_id group by s.name;');
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $sups = $stmt->fetchAll();
