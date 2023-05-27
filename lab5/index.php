@@ -1,6 +1,10 @@
 <?php
 
 header('Content-Type: text/html; charset=UTF-8'); 
+$auth = FALSE;
+if(session_start() && !empty($_SESSION['uid'])){
+  $auth = TRUE;
+}
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $saved = FALSE;
   if (isset($_COOKIE['saved'])) {
@@ -16,21 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       setcookie('password',NULL,1);
     }  // print('<center style="background-color:green;">Спасибо, результаты сохранены.</center>');
   }
-  $auth = FALSE;
-  if(session_start() && !empty($_SESSION['uid'])){
-    $auth = TRUE;
-  }
   
   if($auth && empty($_COOKIE['name'])){
     try{
-      $user = 'u53011';
-      $pass = '1234';
-      $db = new PDO('mysql:host=localhost;dbname=u53011;', $user, $pass,
-          [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-      // $user = 'postgres';
-      // $pass = 'root';
-      // $dsn = "pgsql:host=127.0.0.1;port=5432;dbname=u53011;";
-      // $db = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+      include('../general/connection.php');
   
       $stmt = $db->prepare("select * from application where application_id=:uid");
       $stmt->execute(['uid'=>$_SESSION['uid']]);
@@ -100,11 +93,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $values['superpowers']  = empty($_COOKIE['superpowers']) ? "" : $_COOKIE['superpowers'];
     $values['policyCheckBox']  = empty($_COOKIE['policyCheckBox']) ? 0 : $_COOKIE['policyCheckBox'];
   }
-  
+  $_SESSION['token'] = bin2hex(random_bytes(35));
   include('form.php');
   exit();
 }
 
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+
+if (!$token || $token !== $_SESSION['token']) {
+    echo '<p class="error">Ошибка: неверная отправка формы</p>';
+    header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
+    exit;
+}
 
 setcookie('yob',$_POST['yob']);
 setcookie('name',$_POST['name']); 
@@ -148,23 +148,7 @@ if ($errors) {
 }
 
 
-try{
-  $user = 'u53011';
-  $pass = '1234';
-  $db = new PDO('mysql:host=localhost;dbname=u53011;', $user, $pass,
-    [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-} catch(PDOException $e){
-  die($e->getMessage());
-}
-
-// try {
-//   $user = 'postgres';
-//   $pass = 'root';
-// 	$dsn = "pgsql:host=127.0.0.1;port=5432;dbname=u53011;";
-// 	$db = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-// } catch (PDOException $e) {
-// 	die($e->getMessage());
-// } 
+include('../general/connection.php');
 
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&';
 function generate_string($input, $strength = 16) {

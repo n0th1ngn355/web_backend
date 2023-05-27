@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
+        integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/styles/labsStyle.css">
+    <title>Задание 7</title>
+</head>
+
+<body>
+    <style>
+        body {
+            background-image: none;
+            background-color: #151915;
+        }
+
+        #main {
+            width: 75vw;
+        }
+
+        kbd {
+            background-color: #666;
+            color: white;
+        }
+
+        #sidebar {
+            position: fixed;
+        }
+
+        pre {
+            color: grey;
+            background-color: #151915;
+            padding: 10px;
+        }
+
+        /* @media (max-width: 900px) {
+            #main {
+                width:98vw;
+            }
+        } */
+        @media (max-width: 576px) {
+            p {
+                font-size: 15px;
+            }
+
+            #main {
+                width: 95vw;
+            }
+
+            .list-group-item-action {
+                width: auto;
+            }
+        }
+
+        @media (min-width: 576px) {
+            #sidebar {
+                left: 0;
+                max-width: 20%;
+            }
+        }
+    </style>
+    <div class="col-12 col-sm-2 mx-3 position-fixed" id="sidebar">
+        <div class="d-flex flex-column">
+            <a href="/" class="d-none d-sm-flex  mt-3 pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-5 d-none d-sm-inline">Menu</span>
+            </a>
+            <div class="bg-dark align-items-center align-items-sm-start p-2 rounded-1 text-white">
+                <ul class="nav mb-sm-auto mb-0 list-group list-group-horizontal" id="menu">
+                    <li class="list-group-item-action rounded-1">
+                        <a href="#xss" class="nav-link">XSS</a>
+                    </li>
+                    <li class="list-group-item-action rounded-1">
+                        <a href="#sql_injection" class="nav-link">SQL Injection</a>
+                    </li>
+                    <li class="list-group-item-action rounded-1">
+                        <a href="#csrf" class="nav-link">CSRF</a>
+                    </li>
+                    <li class="list-group-item-action rounded-1">
+                        <a href="#include" class="nav-link">Include</a>
+                    </li>
+                    <li class="list-group-item-action rounded-1">
+                        <a href="#upload" class="nav-link">Upload</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="main" class="row gx-sm-5">
+        <div class="col-sm-10 m-auto">
+            <div class="bg-dark p-4 my-4 rounded-1 d-flex flex-column">
+                <h1>Аудит</h1>
+                <h2 id="xss">XSS</h2>
+                <p>Уязвимости XSS позволяют злоумышленникам внедрять вредоносный код (скрипты на стороне клиента) в
+                    веб-страницы, просматриваемые пользователями. После выполнения браузером пользователя этот код может
+                    выполнять такие действия, как изменение поведения или внешнего вида веб-сайта, кража
+                    конфиденциальных данных, выполнение действий от имени пользователя и т. д.</p>
+                <p>Для проверки сайта на XSS-уязвимость в форму ввода имени пользователя был введен скрипт
+                    <kbd>&lt;script&gt; console.log('попался')&lt;/script&gt;</kbd>
+                </p>
+                <figure class="figure col col-12 col-md-10 m-auto">
+                    <img src="img/xss0.png" class="figure-img img-fluid rounded" alt="0 скрин XSS-уязвимости">
+                    <figcaption class="figure-caption text-center mb-2">создание нового пользователя</figcaption>
+                </figure>
+                <div class="row">
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/xss1.png" class="figure-img img-fluid rounded" alt="1 скрин XSS-уязвимости">
+                        <figcaption class="figure-caption text-center mb-2">страница админа</figcaption>
+                    </figure>
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/xss2.png" class="figure-img img-fluid rounded" alt="2 скрин XSS-уязвимости">
+                        <figcaption class="figure-caption text-center mb-2">консоль</figcaption>
+                    </figure>
+                </div>
+                <p>Как можно заметить, на странице администратора имя пользователя не было выведено, так как текст был
+                    воспринят как скрипт. В консоли мы можем увидеть сообщение, а значит уязвимость присутствует.</p>
+                <p>Для устранения этой уязвимости на странице администратора была использована функция
+                    <kbd>htmlspecialchars</kbd> для преобразования тегов html в специальный вид.
+                </p>
+                <figure class="figure col col-12 col-md-10 m-auto">
+                    <img src="img/xss3.png" class="figure-img img-fluid rounded" alt="3 скрин XSS-уязвимости">
+                    <figcaption class="figure-caption text-center mb-2">исправление уязвимости</figcaption>
+                </figure>
+                <p>Как видим, теперь скрипт отображается как обычный текст, а нашему администратору ничего не грозит.
+                    Также для устранения этой уязвимости можно было использовать функцию <kbd>strip_tags</kbd> для
+                    отбрасывания тегов html при сохранении данных, либо описать свою логику обработки тегов с помощью
+                    регулярных выражений.</p>
+                <h2 id="sql_injection">SQL Injection</h2>
+                <p>SQL-инъекция - это метод, который злоумышленники применяют для вставки SQL-запросов в поля ввода,
+                    которые затем обрабатываются базой данных SQL. Этими слабыми местами можно воспользоваться, когда
+                    формы ввода позволяют пользовательским SQL-запросам напрямую запрашивать базу данных.</p>
+                <p>Попробуем провести классическую SQL-инъекцию. Вставим <kbd>1' or '1' = '1</kbd> в поля логин и пароль
+                    при входе пользователя, предполагая что итоговый запрос будет выглядеть так:<br><kbd>SELECT * FROM
+                        application WHERE login='1' OR '1' = '1' AND password='1' OR '1' = '1'</kbd></p>
+                <div class="row">
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/sql0.png" class="figure-img img-fluid rounded" alt="0 скрин SQL Injection">
+                        <figcaption class="figure-caption text-center mb-2">ввод данных</figcaption>
+                    </figure>
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/sql1.png" class="figure-img img-fluid rounded" alt="1 скрин SQL Injection">
+                        <figcaption class="figure-caption text-center mb-2">атака не удалась</figcaption>
+                    </figure>
+                </div>
+                <p>Ожидаемым поведением при атаке была успешная авторизация, но авторизация не удалась. На это есть 2
+                    причины:
+                <ul class="mb-0">
+                    <li>на сервере используются подготовленные SQL-запросы;</li>
+                    <li>аутентификация происходит в 2 этапа - сверка логина, а затем сверка пароля по хэшу. </li>
+                </ul>
+                </p>
+                <p>В итоге можно сказать, что уязвимости типа SQL Injection нет.</p>
+                <h2 id="csrf">CSRF</h2>
+                <p>Подделка межсайтовых запросов (Cross-Site Request Forgery) — это атака, которая заставляет конечного
+                    пользователя выполнять нежелательные действия в веб-приложении, в котором он в настоящее время
+                    аутентифицирован. Если жертва является обычным пользователем, успешная атака CSRF может заставить
+                    пользователя выполнять запросы на изменение состояния, такие как перевод средств, изменение адреса
+                    электронной почты и т. д. Если жертва является администратором, CSRF может скомпрометировать все
+                    веб-приложение.
+                </p>
+                <p>Так как на сервере GET-запросы используются по назначению (для получения ресурсов, а не, например,
+                    для изменения данных), то с помощью них нельзя осуществить атаку CSRF. Однако, возможна отправка
+                    POST-запросов от лица аутентифицированного пользователя.</p>
+                <p>Предположим, что пользователь вошел на сайт под своими учётными данными. У него есть возможность
+                    изменить их с помощью отправки формы. POST-запрос выглядит примерно следующим образом</p>
+                <pre class="m-auto mb-2 p-2">POST http://localhost:3000/lab5/ HTTP/1.1
+
+name=test&email:csrf@test.ru...</pre>
+                <figure class="figure col col-12 col-md-10 m-auto">
+                    <img src="img/csrf0.png" class="figure-img img-fluid rounded" alt="0 скрин CSRF">
+                    <figcaption class="figure-caption text-center mb-2">тестовый пользователь</figcaption>
+                </figure>
+                <p>Создадим теперь сайт, который будет отправлять форму с заранее введенными значениями от имени
+                    пользователя на сервер, <s>заставим пользователя зайти на этот сайт</s> применим навыки социальной
+                    инженерии и проверим изменятся ли данные. Сайт может быть довольно простой:</p>
+                <pre>&lt;html&gt;
+    &lt;body&gt;
+        &lt;form action="http://localhost:3000/lab5/" method="POST"&gt;
+            &lt;input type="hidden" name="name" value="ban"&gt;
+            &lt;input type="hidden" name="email" value="csrf@ban.ru"&gt;
+            &lt;input type="hidden" name="yob" value="2020"&gt;
+            &lt;input type="hidden" name="sex" value="1"&gt;
+            &lt;input type="hidden" type="radio" name="num_of_limbs" value="5"&gt;
+            &lt;select type="hidden" name="superpowers[]"&gt;
+                &lt;option value="1" selected&gt;бессмертие&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;input type="hidden" name="policyCheckBox" value="on"&gt;
+        &lt;/form&gt;
+        &lt;script&gt;
+            document.forms[0].submit();
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+                <div class="row">
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/csrf1.png" class="figure-img img-fluid rounded" alt="1 скрин CSRF">
+                        <figcaption class="figure-caption text-center mb-2">до атаки</figcaption>
+                    </figure>
+                    <figure class="figure col col-12 col-md-6 m-auto">
+                        <img src="img/csrf2.png" class="figure-img img-fluid rounded" alt="2 скрин CSRF">
+                        <figcaption class="figure-caption text-center mb-2">после атаки</figcaption>
+                    </figure>
+                </div>
+                <p>Атака удалась, а значит уязвимость CSRF присутствует. Для устранения уязвимости необходимо
+                    реализовать устаревание сессии по истечении некоторого времени, а также использовать токен CSRF —
+                    уникальное, секретное и непредсказуемое значение, которое генерируется приложением на стороне
+                    сервера и передается клиенту. При попытке отправки формы, клиент должен включить в запрос правильный
+                    токен CSRF. Из-за этого злоумышленнику очень сложно составить действительный запрос от имени жертвы.
+                    Токен будем выдавать при получении GET-запроса от авторизованного пользователя:</p>
+                <pre>$_SESSION['token'] = bin2hex(random_bytes(35));</pre>
+                <p>Все формы, в свою очередь, будут иметь скрытое поле для этого токена.</p>
+                <pre>&lt;input name="token" type="hidden" value="&lt;?php echo $_SESSION['token'];?&gt;"&gt;</pre>
+                <p>Если форма была отправлена без токена или с неверным токеном, то пользователь увидит ошибку.</p>
+                <pre>$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+
+if (!$token || $token !== $_SESSION['token']) {
+    echo '&lt;p class="error"&gt;Ошибка: неверная отправка формы&lt;/p&gt;';
+    header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed');
+    exit;
+}</pre>
+                <figure class="figure col col-12 col-md-10 m-auto">
+                    <img src="img/csrf3.png" class="figure-img img-fluid rounded" alt="3 скрин CSRF">
+                    <figcaption class="figure-caption text-center mb-2">ошибка при CSRF-атаке</figcaption>
+                </figure>
+                <p>Уязвимость была устранена.</p>
+                <h2 id="include">Include</h2>
+                <p>Уязвимость File Inclusion позволяет злоумышленнику включить файл, обычно используя механизмы "динамического включения файлов", реализованные в целевом приложении. Уязвимость возникает из-за использования пользовательского ввода без надлежащей проверки. Предположим что на сайте существует возможность просмотра содержимого файлов. В таком случае без специальной проверки злоумышленник может получить совершенно произвольный файл со стороны сервера. Например, следующий запрос может показать данные, сокрытые от пользователей:</p><pre>http://vulnerable_host/preview.php?file=../../../../etc/passwd</pre>
+                <p>К счастью, на нашем сайте не предусмотрено включение произвольных файлов.</p>
+                <h2 id="upload">Upload</h2>
+                <p>Upload-уязвимость возникает когда веб-сервер позволяет пользователям загружать файлы в свою файловую систему без достаточной проверки их имени, типа, содержимого или размера. Неспособность должным образом обеспечить соблюдение этих ограничений может означать, что даже базовая функция загрузки изображений может быть использована для загрузки произвольных и потенциально опасных файлов. Это могут быть даже файлы сценариев на стороне сервера, которые позволяют удаленно выполнять код.</p>
+                <p>Полная защита от загрузки вредоносных файлов может быть сложной задачей, и точные необходимые шаги будут различаться в зависимости от типов загружаемых файлов и того, как файлы обрабатываются или анализируются на сервере.</p>
+                <p>К счастью, на нашем сайте не предусмотрена загрузка пользовательских файлов.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

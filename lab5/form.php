@@ -15,6 +15,7 @@ integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="ano
 ?>
 </a>
 <form method="post" autocomplete="off" id="form" novalidate class="m-auto row g-4">
+<input name="token" type="hidden" value="<?php echo $_SESSION['token'];?>">
           <div class="col-md-6">
             <label for="formName" class="form-label">Имя</label>
             <input name="name" id="formName" class="form-control<?php if(!empty($errors['name'])) { print ' is-invalid';}?>" placeholder="Введите имя" value="<?php print $values['name']; ?>">

@@ -102,7 +102,7 @@ echo "<div class='col-12 col-lg-10 m-auto d-flex flex-column'>";
     foreach($stmt->fetchAll() as $k=>$v) {
       echo '<div class="d-flex m-1"><input class="form-check-input m-auto" style="margin-right: 5px !important; width:1.5em; height:1.5em;" type="checkbox" value="'.$v['application_id'].'">';
       echo '<a href="./admin.php?id='.$v['application_id'].'" class="list-group-item list-group-item-secondary rounded-4 list-group-item-action">';
-      echo '<h3>'.$v['name'].'</h3><h5><i>login: </i><code>'.$v['login'].'</code> <i>email: </i><code>'.$v['email'].'</code></h5></a></div>';
+      echo '<h3>'.htmlspecialchars($v['name']).'</h3><h5><i>login: </i><code>'.$v['login'].'</code> <i>email: </i><code>'.$v['email'].'</code></h5></a></div>';
     }
   } catch(PDOException $e){
     die($e->getMessage());

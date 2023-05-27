@@ -65,16 +65,8 @@ else {
         header('Refresh: 0');
     }else{
         try{
-            $user = 'u53011';
-            $pass = '1234';
-            $db = new PDO('mysql:host=localhost;dbname=u53011;', $user, $pass,
-                  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            include('../general/connection.php');
             
-            // $user = 'postgres';
-            // $pass = 'root';
-            // $dsn = "pgsql:host=127.0.0.1;port=5432;dbname=u53011;";
-            // $db = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        
             $stmt = $db->prepare("select application_id, login, password from application where login=:login");
             $stmt->execute(['login'=>$_POST['login']]);
             $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -83,7 +75,7 @@ else {
                 setcookie('er_msg','Неверные учетные данные');
                 header('Refresh: 0');
             }else{
-                setcookie('login',$_POST['login']);
+                setcookie('login',$_POST['login'], time() + 86400);
                 if(password_verify($_POST['password'],$t[0]['password'])){
                     $_SESSION['uid'] = $t[0]['application_id'];
                     setcookie('login',NULL,1);
