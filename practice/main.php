@@ -22,7 +22,6 @@ if(!empty($_GET['id'])){
   }
   setcookie('saved',NULL,1);
   $uid = $_GET['id'];
-  // и здесь тоже
   include($form_template);
   exit;
 }
@@ -151,6 +150,7 @@ $(document).ready(function(){
 </script>
 
 <?php
+$edit = "YES";
   echo '</div></div>';
     echo "<div class='m-2 list-group col col-md-7'>";
     include('lists.php');
@@ -187,7 +187,6 @@ echo "</div>";
   try{
     $uid = $_GET['id'];
     include('connection.php');
-    /// использовать здесь проверку
     include('queries/update.php');
     setcookie('changed',TRUE);
   } catch(PDOException $e){
