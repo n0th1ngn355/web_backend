@@ -21,6 +21,7 @@ try{
     $values['amount']  = '';
     $values['exchanged_amount']  = '';
     $values['operation_date']  = '';
+    $uid = '';
   }
   include('queries/getEmps.php');
   $emps = $result;
@@ -39,7 +40,7 @@ try{
   function deleteRec(){
     const url = 'queries/delete.php';
     const data = {
-      id: [<?php echo $uid?$uid:''; ?>],
+      id: [<?php echo $uid; ?>],
     };
 
     const xhr = new XMLHttpRequest();
