@@ -2,6 +2,7 @@
 include('isAuth.php');
 try{
   include('connection.php');
+  $values = array();
   if($edit != 'NO'){
     $stmt = $db->prepare("select * from employee where employee_id=:uid");
     $stmt->execute(['uid'=>$uid]);
@@ -9,12 +10,17 @@ try{
     $t = $stmt->fetchAll();
 
 
-    $values = array();
     $values['name']  = $t[0]['name'];
     $values['email']  = $t[0]['email'];
     $values['job_id']  = $t[0]['job_id'];
     $values['salary']  = $t[0]['salary'];
     $values['phone']  = $t[0]['phone'];
+  }else{
+    $values['name']  = '';
+    $values['email']  = '';
+    $values['job_id']  = '';
+    $values['salary']  = '';
+    $values['phone']  = '';
   }
   include('queries/getJobs.php');
   $jobs = $result;

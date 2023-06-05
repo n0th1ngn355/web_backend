@@ -2,16 +2,19 @@
 include('isAuth.php');
 try{
   include('connection.php');
+  $values = array();
+
   if($edit != 'NO'){
     $stmt = $db->prepare("select * from currency where currency_id=:uid");
     $stmt->execute(['uid'=>$uid]);
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $t = $stmt->fetchAll();
 
-
-    $values = array();
     $values['name']  = $t[0]['name'];
     $values['code']  = $t[0]['code'];
+  }else{
+    $values['name']  = '';
+    $values['code']  = '';
   }
 } catch(PDOException $e){
     die($e->getMessage());

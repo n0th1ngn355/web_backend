@@ -2,6 +2,8 @@
 include('isAuth.php');
 try{
   include('connection.php');
+  $values = array();
+
   if($edit != 'NO'){
     $stmt = $db->prepare("select * from rate where rate_id=:uid");
     $stmt->execute(['uid'=>$uid]);
@@ -9,10 +11,14 @@ try{
     $t = $stmt->fetchAll();
 
 
-    $values = array();
     $values['currency_id']  = $t[0]['currency_id'];
     $values['rate_date']  = $t[0]['rate_date'];
     $values['exchange_rate']  = $t[0]['exchange_rate'];
+  }else{
+    
+    $values['currency_id']  = '';
+    $values['rate_date']  = '';
+    $values['exchange_rate']  = '';
   }
   include('queries/getCurrencies.php');
   $currencies = $result;

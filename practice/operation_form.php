@@ -2,6 +2,7 @@
 include('isAuth.php');
 try{
   include('connection.php');
+  $values = array();
   if($edit != 'NO'){
     $stmt = $db->prepare("select * from operation where operation_id=:uid");
     $stmt->execute(['uid'=>$uid]);
@@ -9,12 +10,17 @@ try{
     $t = $stmt->fetchAll();
 
 
-    $values = array();
     $values['employee_id']  = $t[0]['employee_id'];
     $values['currency_id']  = $t[0]['currency_id'];
     $values['amount']  = $t[0]['amount'];
     $values['exchanged_amount']  = $t[0]['exchanged_amount'];
     $values['operation_date']  = $t[0]['operation_date'];
+  }else{
+    $values['employee_id']  = '';
+    $values['currency_id']  = '';
+    $values['amount']  = '';
+    $values['exchanged_amount']  = '';
+    $values['operation_date']  = '';
   }
   include('queries/getEmps.php');
   $emps = $result;

@@ -1,6 +1,8 @@
 <?php
 include('isAuth.php');
 try{
+  $values = array();
+
   include('connection.php');
   if($edit != 'NO'){
     $stmt = $db->prepare("select * from job where job_id=:uid");
@@ -9,8 +11,9 @@ try{
     $t = $stmt->fetchAll();
 
 
-    $values = array();
     $values['name']  = $t[0]['name'];
+  }else{
+    $values['name']  = '';
   }
 } catch(PDOException $e){
     die($e->getMessage());
