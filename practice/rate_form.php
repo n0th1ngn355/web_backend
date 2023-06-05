@@ -15,6 +15,7 @@ try{
     $values['rate_date']  = $t[0]['rate_date'];
     $values['exchange_rate']  = $t[0]['exchange_rate'];
   }else{
+    $uid = '';
     
     $values['currency_id']  = '';
     $values['rate_date']  = '';

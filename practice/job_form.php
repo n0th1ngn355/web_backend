@@ -14,6 +14,8 @@ try{
     $values['name']  = $t[0]['name'];
   }else{
     $values['name']  = '';
+    $uid = '';
+
   }
 } catch(PDOException $e){
     die($e->getMessage());

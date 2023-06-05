@@ -21,6 +21,8 @@ try{
     $values['job_id']  = '';
     $values['salary']  = '';
     $values['phone']  = '';
+    $uid = '';
+
   }
   include('queries/getJobs.php');
   $jobs = $result;
