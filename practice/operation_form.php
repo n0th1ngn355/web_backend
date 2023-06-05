@@ -39,7 +39,7 @@ try{
   function deleteRec(){
     const url = 'queries/delete.php';
     const data = {
-      id: [<?php echo $uid; ?>],
+      id: [<?php echo $uid?$uid:''; ?>],
     };
 
     const xhr = new XMLHttpRequest();
