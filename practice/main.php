@@ -150,7 +150,6 @@ $(document).ready(function(){
 </script>
 
 <?php
-$edit = "YES";
   echo '</div></div>';
     echo "<div class='m-2 list-group col col-md-7'>";
     include('lists.php');
