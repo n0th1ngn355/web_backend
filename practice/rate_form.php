@@ -84,7 +84,7 @@ try{
           </div>
           
           <div class="col-md-6">
-            <label for="formRateDate" class="form-label">Дата <button class='btn btn-primary' onclick="setTime()">Время</button></label>
+            <label for="formRateDate" class="form-label">Дата <button class='btn btn-primary' type="button" onclick="setTime()">Время</button></label>
             <input name="rate_date" id="formRateDate" type='text' class="form-control" placeholder="Введите" required value="<?php print $values['rate_date']; ?>">
           </div>
 
